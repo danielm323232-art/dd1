@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,18 +21,6 @@ body{
     overflow:hidden;
 }
 
-/* romantic glow */
-body::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:
-        radial-gradient(circle at 20% 30%, rgba(255,200,150,.15), transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(255,180,100,.12), transparent 40%);
-    pointer-events:none;
-}
-
-/* container card */
 .container{
     text-align:center;
     background:rgba(30,0,10,.6);
@@ -40,29 +29,24 @@ body::before{
     border:1px solid rgba(255,215,170,.3);
     box-shadow:0 0 40px rgba(255,0,80,.25);
     backdrop-filter: blur(6px);
-
-    position: relative;   /* important */
+    position:relative;
 }
 
 #no{
     position:absolute;
 }
 
-/* title */
 h1{
     font-family:'Great Vibes',cursive;
     font-size:56px;
     color:#ffd7a8;
-    margin-bottom:30px;
 }
 
 .subtitle{
     font-size:22px;
-    margin-bottom:40px;
+    margin-bottom:30px;
     color:#f5c6d6;
 }
-
-/* buttons */
 
 button{
     font-size:20px;
@@ -71,47 +55,48 @@ button{
     border:none;
     cursor:pointer;
     margin:10px;
-    transition:all .25s ease;
 }
 
 #yes{
     background:linear-gradient(45deg,#d4145a,#fbb03b);
     color:white;
-    box-shadow:0 0 15px rgba(255,60,100,.6);
-}
-
-#yes:hover{
-    transform:scale(1.1);
 }
 
 #no{
-    position:absolute;
     background:#5a0f1c;
     color:#ffd7a8;
     border:1px solid #ffd7a8;
 }
 
-/* date page */
+#funnyText{
+    margin-top:25px;
+    font-size:20px;
+    color:#ffd7a8;
+    min-height:30px;
+}
+
+/* rejection image hidden initially */
+#noImg{
+    margin-top:20px;
+    width:220px;
+    display:none;
+    transition:transform .4s;
+}
+.location-link{
+    color:#ffd7a8;
+    text-decoration:none;
+    font-size:22px;
+    font-weight:500;
+    transition:all .25s ease;
+}
+
+.location-link:hover{
+    color:#ffffff;
+    text-shadow:0 0 10px rgba(255,200,150,.8);
+}
 
 #datePage{
     display:none;
-}
-
-.date-title{
-    font-family:'Great Vibes',cursive;
-    font-size:60px;
-    color:#ffd7a8;
-}
-
-.details{
-    font-size:22px;
-    margin-top:20px;
-    color:#f8d7da;
-}
-
-.rose{
-    font-size:40px;
-    margin-top:20px;
 }
 
 </style>
@@ -120,38 +105,86 @@ button{
 <body>
 
 <div id="questionPage" class="container">
-    <h1>Question</h1>
-    <div class="subtitle">Would you honor me with a romantic date? 🌹</div>
 
+    <h1>Oh, It's You</h1>
+    <div class="subtitle">Since you're already here… wanna go on a date? 🌹</div>
     <button id="yes">Yes ❤️</button>
-    <button id="no">No</button>
+<button id="no">No</button>
+
+<div id="funnyText"></div>
+<img id="noImg" src="st,small,507x507-pad,600x600,f8f8f8.png">
+
 </div>
 
 
 <div id="datePage" class="container">
-    <div class="date-title">It's a Date ❤️</div>
 
-    <div class="details">
-        📍 Location: Tomoca Coffee, Bole<br><br>
-        🕯 Time: Saturday — 4:00 PM<br><br>
-        Dress Code: Elegant & Beautiful
-    </div>
+<h1>It's a Date ❤️</h1>
 
-    <div class="rose">🌹🌹🌹</div>
+<img src="yesbaby.png" width="250">
+
+<div style="margin-top:20px;font-size:22px;">
+    <a href="https://share.google/W4in5ymwN9C2rbo5h" target="_blank" class="location-link">
+        📍 Location: Delmela Café and Restaurant
+        </a>
+        <br><br>🕯 Time: Saturday — 8:00 LT <br><br>
+Dress Code: Elegant & Beautiful
+</div>
+
 </div>
 
 
 
 <script>
-const yesBtn = document.getElementById("yes");
 
-yesBtn.onclick = () =>{
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const funnyText = document.getElementById("funnyText");
+const noImg = document.getElementById("noImg");
+const container = document.getElementById("questionPage");
+
+let count = 0;
+let rotation = 0;
+
+const funnyMessages = [
+"Are you sure about that? 😭",
+"My mom already likes you though...",
+"You didn't even think about it...",
+"This is getting awkward...",
+"I will cry in the car later...",
+"The coffee will miss us ☕",
+"My playlist was ready for this date...",
+"You just broke Tomoca Coffee's heart 💔",
+"I even practiced my jokes...",
+"Okay fine... but I'm still hopeful 👀"
+];
+
+
+yesBtn.onclick = () => {
+
     document.getElementById("questionPage").style.display="none";
     document.getElementById("datePage").style.display="block";
+
 }
 
-const noBtn = document.getElementById("no");
-const container = document.getElementById("questionPage");
+
+noBtn.onclick = () => {
+
+    /* show image after first click */
+    noImg.style.display = "block";
+
+    if(count < funnyMessages.length){
+        funnyText.innerText = funnyMessages[count];
+        count++;
+    }
+
+    rotation += 45;
+    noImg.style.transform = "rotate("+rotation+"deg)";
+}
+
+
+
+/* moving NO button */
 
 document.addEventListener("mousemove", function(e){
 
